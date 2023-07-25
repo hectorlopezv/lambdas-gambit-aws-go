@@ -18,7 +18,9 @@ func ReadSecret()error{
 	return err
 }
 func DbConnect() error {
-	Db, err = sql.Open("mysql",ConnStr(SecretModel))
+	str := ConnStr(SecretModel)
+	fmt.Println("DbConnect > "+str)
+	Db, err = sql.Open("mysql",str)
 	if err != nil {
 		fmt.Println(err.Error())
 		return err
@@ -51,10 +53,10 @@ func UserIsAdmin(userUUID string)(bool, string){
 		return false, err.Error()
 	}
 	defer Db.Close()
+	sentencia := fmt.Sprintf("SELECT 1 FROM users WHERE User_UUID='%s' AND User_Status = '0'", userUUID)
 
-	query := "SELECT 1 FROM users WHERE User_UUID='"+userUUID+"' AND User_Status = 0'"
-	fmt.Println(query)
-	rows, err := Db.Query(query)
+	fmt.Println(sentencia)
+	rows, err := Db.Query(sentencia)
 	if err != nil {
 		return false, err.Error()
 	}

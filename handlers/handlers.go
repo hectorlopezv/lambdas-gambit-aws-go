@@ -12,6 +12,7 @@ import (
 
 func Handlers(path string, method string, body string, headers map[string]string, request events.APIGatewayV2HTTPRequest) (int, string){
 	fmt.Println("proccess "+path+ " > " + method)
+	
 	id := request.PathParameters["id"]
 	idn, _ := strconv.Atoi(id)
 
@@ -62,14 +63,16 @@ func OrderProcess(body string, path string, method string, user string, id int, 
 	return 400, "Method Invalid"
 }
 
-func validateAuthorization( path string, method string, heeaders map[string]string)(bool, int, string) {
+func validateAuthorization( path string, method string, headers map[string]string)(bool, int, string) {
 	if(path == "product" && method == "GET")||(path =="category" && method=="GET"){
 		return true, 200, ""
 	}
-	token := heeaders["Authorization"]
+	token := headers["authorization"]
 	if len(token)==0{
 		return false, 401, "Token is required"
 	}
+	fmt.Println(headers)
+	fmt.Println("token  > "+token)
 	todoOk, msg, err := auth.ValidateToken(token)
 	if !todoOk{
 		if err != nil{

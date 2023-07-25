@@ -2,6 +2,7 @@ package routers
 
 import (
 	"encoding/json"
+	"fmt"
 	"gambit/db"
 	"gambit/models"
 	"strconv"
@@ -20,6 +21,7 @@ func InsertCategory(body string, user string)(int, string){
 	if len(t.CategPath) == 0{
 		return 400, "Debe especificar el path de la categoria"
 	}
+	fmt.Println("user > "+user)
 	isAdmin, msg := db.UserIsAdmin(user)
 	if !isAdmin{
 		return 400, msg
