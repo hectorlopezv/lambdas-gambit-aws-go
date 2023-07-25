@@ -2,9 +2,11 @@ package handlers
 
 import (
 	"fmt"
-"strconv"
-"gambit/auth"
-"github.com/aws/aws-lambda-go/events"
+	"gambit/auth"
+	"gambit/routers"
+	"strconv"
+
+	"github.com/aws/aws-lambda-go/events"
 )
 
 
@@ -20,11 +22,44 @@ if !isOk{
 
 switch path[0:4] {
 case "user":
-cas
-
+	return UserProcess(body, path, method, user, id, request)
+case "prod":
+	return ProductProcess(body, path, method, user, idn, request)
+case "stoc":
+	return StockProcess(body, path, method, user, idn, request)
+case "addr":
+	return AddressProcess(body, path, method, user, idn, request)
+case "cate":
+	return CategoryProcess(body, path, method, user, idn, request)
+case "orde":
+	return OrderProcess(body, path, method, user, idn, request)
 }
 	return 400, "Method Invalid"
 
+}
+func UserProcess(body string, path string, method string, user string, id string, request events.APIGatewayV2HTTPRequest)(int, string){
+	return 400, "Method Invalid"
+}
+func ProductProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	return 400, "Method Invalid"
+}
+func CategoryProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	switch method {
+	case "POST":
+		return routers.InsertCategory(body, user)
+	}
+	return 400, "Method Invalid"
+}
+
+func StockProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	return 400, "Method Invalid"
+}
+func AddressProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	return 400, "Method Invalid"
+}
+
+func OrderProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	return 400, "Method Invalid"
 }
 
 func validateAuthorization( path string, method string, heeaders map[string]string)(bool, int, string) {
