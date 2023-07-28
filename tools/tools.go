@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	"strconv"
 )
 
 func FechaMysql() string {
@@ -14,4 +15,25 @@ func EscapeString(t string)string {
 	desc := strings.ReplaceAll(t, "'", "")
 	desc = strings.ReplaceAll(desc, "\"", "")
 	return desc
+}
+func BuildQuery(s string, fieldName string, typeField string, valueN int, valueF float64, ValueS string)string{
+	if typeField =="S"&& len(ValueS)== 0 ||
+		typeField =="N"&& valueN== 0 ||
+		typeField =="F"&& valueF== 0 {
+		return s
+	}
+	if !strings.HasSuffix(s, "SET "){
+		s += ", "
+	}
+
+	switch typeField {
+	case "S":
+		s += fieldName + " = '" + EscapeString(ValueS) + "'"
+	case "N":
+		s += fieldName + " = " + strconv.Itoa(valueN)
+	case "F":
+		s += fieldName + " = " + strconv.FormatFloat(valueF, 'e', -1, 64)
+	}
+	return s
+
 }

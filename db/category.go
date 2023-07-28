@@ -7,7 +7,6 @@ import (
 	"gambit/tools"
 	"strconv"
 	"strings"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 

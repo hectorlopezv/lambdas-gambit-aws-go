@@ -39,9 +39,25 @@ case "orde":
 
 }
 func UserProcess(body string, path string, method string, user string, id string, request events.APIGatewayV2HTTPRequest)(int, string){
+	if path == "user/me"{
+		switch method {
+		case "PUT":
+			return routers.UpdateUser(body, user)
+		}
+	}
 	return 400, "Method Invalid"
 }
 func ProductProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	switch method {
+		case "GET":
+		return routers.SelectProduct(request)
+	case "POST":
+		return routers.InsertProduct(body, user)
+	case "PUT":
+		return routers.UpdateProduct(body, user, id)
+	case "DELETE":
+		return routers.DeleteProduct(body, user, id)
+	}
 	return 400, "Method Invalid"
 }
 func CategoryProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
@@ -60,6 +76,11 @@ func CategoryProcess(body string, path string, method string, user string, id in
 }
 
 func StockProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	switch method {
+case "PUT":
+	return routers.UpdateStockProduct(body, user, id)
+
+}
 	return 400, "Method Invalid"
 }
 func AddressProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){

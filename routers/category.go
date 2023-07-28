@@ -6,7 +6,6 @@ import (
 	"gambit/db"
 	"gambit/models"
 	"strconv"
-
 	"github.com/aws/aws-lambda-go/events"
 )
 func validateBody(t models.Category, err error)(int, string){

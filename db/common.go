@@ -40,7 +40,7 @@ func ConnStr(claves models.SecretRDSJson) string{
 	authToken = claves.Password
 	dbEndpoint = claves.Host
 	dbName = os.Getenv("DbName")
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?allowCleartextPasswords=true", dbUser, authToken, dbEndpoint, dbName)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?allowCleartextPasswords=true&parseTime=true", dbUser, authToken, dbEndpoint, dbName)
 	fmt.Println(dsn)
 	return dsn
 }
@@ -68,4 +68,27 @@ func UserIsAdmin(userUUID string)(bool, string){
 		return true, ""
 	}
 	return false, "User is not admin"
+}
+func UserExist(userUUID string)(error, bool){
+	fmt.Println("Comienza user exists")
+	err := DbConnect()
+	if err != nil {
+		return  err, false
+	}
+	defer Db.Close()
+	sentencia := "SELECT 1 FROM users WHERE User_UUID='" + userUUID + "'"
+	fmt.Println(sentencia)
+	rows, err := Db.Query(sentencia)
+	if err != nil {
+		return  err, false
+	}
+	var value string
+	rows.Next()
+	rows.Scan(&value)
+	fmt.Println("UserExist > Ejecucion exitosa - valor devuelto "+value);
+	if value == "1"{
+		return nil, true
+	}
+	return nil, false
+	
 }
