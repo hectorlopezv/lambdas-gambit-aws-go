@@ -52,3 +52,13 @@ type ListUsers struct{
 	TotalItems int `json:"totalItems"`
 	Data []User `json:"data"`
 }
+type Address struct{
+	AddId int `json:"addId"`
+	AddAddress string `json:"addAddress"`
+	AddCity string `json:"addCity"`
+	AddState string `json:"addState"`
+	AddPostalCode string `json:"addPostalCode"`
+	AddPhone string `json:"addPhone"`
+	AddName string `json:"addName"`
+	AddTitle string `json:"addTitle"`
+}

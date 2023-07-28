@@ -5,7 +5,6 @@ import (
 	"gambit/auth"
 	"gambit/routers"
 	"strconv"
-
 	"github.com/aws/aws-lambda-go/events"
 )
 
@@ -92,6 +91,16 @@ case "PUT":
 	return 400, "Method Invalid"
 }
 func AddressProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	switch method {
+		case "GET":
+		return routers.SelectAddress(user)
+	case "POST":
+		return routers.InsertAddress(body, user)
+	case "PUT":
+		return routers.UpdateAddress(body, user, id)
+	case "DELETE":
+		return routers.DeleteAddress(id)
+	}
 	return 400, "Method Invalid"
 }
 
