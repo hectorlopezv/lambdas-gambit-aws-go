@@ -41,8 +41,16 @@ case "orde":
 func UserProcess(body string, path string, method string, user string, id string, request events.APIGatewayV2HTTPRequest)(int, string){
 	if path == "user/me"{
 		switch method {
+		case "GET":
+			return routers.SelectUser(body, user)
 		case "PUT":
 			return routers.UpdateUser(body, user)
+		}
+	}
+	if path == "users"{
+		switch method {
+		case "GET":
+			return routers.SelectUsers(body, user, request)
 		}
 	}
 	return 400, "Method Invalid"
