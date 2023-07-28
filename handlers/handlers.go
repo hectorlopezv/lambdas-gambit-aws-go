@@ -105,6 +105,13 @@ func AddressProcess(body string, path string, method string, user string, id int
 }
 
 func OrderProcess(body string, path string, method string, user string, id int, request events.APIGatewayV2HTTPRequest)(int, string){
+	switch method {
+		case "GET":
+		return routers.SelectOrders(user, request)
+
+case "POST":
+	return routers.InsertOrder(body, user)
+}
 	return 400, "Method Invalid"
 }
 
